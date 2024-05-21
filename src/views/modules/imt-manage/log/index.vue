@@ -30,15 +30,7 @@
     <el-table ref="multipleTable" v-loading="loading" :data="table.data" :highlight-current-row="true" size="max" stripe tooltip-effect="dark" style="width: 100%;" :border="true">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column align="center" prop="mobile" :formatter="formatMobile" label="手机号"></el-table-column>
-      <el-table-column align="center" prop="type" label="操作类型">
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.type == 'START_TRAVEL'" type="success">开始旅行</el-tag>
-          <el-tag v-if="scope.row.type == 'RECEIVE_TRAVEL_REWARD'" type="warning">领取旅行奖励小茅运</el-tag>
-          <el-tag v-if="scope.row.type == 'RECEIVE_ENERGY_AWARD'">领取申购耐力值</el-tag>
-          <el-tag v-if="scope.row.type == 'RECEIVE_SHARE_REWARD'">领取活动分享耐力值</el-tag>
-          <el-tag v-if="scope.row.type == 'RECEIVE_CONTINUE_REWARD'">领取连续申购小茅运</el-tag>
-        </template>
-      </el-table-column>
+      <el-table-column align="center" prop="type" :formatter="(row, column) => formatValue(row, column, 'typeList')" label="操作类型"></el-table-column>
       <el-table-column align="center" prop="message" label="信息"></el-table-column>
       <el-table-column align="center" prop="state" label="状态">
         <template slot-scope="scope">
@@ -95,6 +87,10 @@ export default {
         {
           value: 'RECEIVE_CONTINUE_REWARD',
           name: '领取连续申购小茅运',
+        },
+        {
+          value: 'ORDER_GIFT',
+          name: '兑换权益',
         }
       ],
       stateList: [

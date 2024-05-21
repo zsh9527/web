@@ -7,6 +7,7 @@
           <el-button type="primary" @click.native="handleAdd()" icon="el-icon-circle-plus-outline">新建用户</el-button>
           <el-button type="warning" @click.native="handleBatchReservation()" icon="el-icon-circle-plus-outline">批量申购</el-button>
           <el-button type="warning" @click.native="handleBatchReward()" icon="el-icon-circle-plus-outline">批量领取奖励</el-button>
+          <el-button type="warning" @click.native="handleBatchGift()" icon="el-icon-circle-plus-outline">批量兑换权益</el-button>
           <el-button type="danger" @click.native="handleBatchDelete()" icon="el-icon-delete">批量删除</el-button>
         </div>
       </div>
@@ -83,7 +84,7 @@
 
 <script>
 
-import { pageUser, deleteUsers, listAllItem, reservation, reward } from "@/api/imt.js"
+import { pageUser, deleteUsers, listAllItem, reservation, reward, gift } from "@/api/imt.js"
 import AddView from './add'
 import UpdateView from './update'
 import LoginView from './login'
@@ -297,6 +298,28 @@ export default {
         })
       })
     },
+    handleBatchGift() {
+      let mobiles = this.getSelectMobile();
+      if (!mobiles) {
+        return;
+      }
+      this.$confirm('是否执行勾选的兑换权益任务?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        this.loading = true
+        gift(mobiles).then((r) => {
+          this.$message({
+            message: '准备开始兑换, 结果请后续在app中查询',
+            type: 'success',
+          })
+          this.search()
+        }).catch(() => {
+          this.loading = false
+        })
+      })
+    },
     listItemShops(row) {
       this.$router.push(
         {
@@ -315,6 +338,7 @@ export default {
       this.search()
       this.addDialog = false
       this.updateDialog = false
+      this.loginDialog = false
       this.authDialog = false
     },
     /**

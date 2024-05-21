@@ -40,7 +40,7 @@ export function sendCode(mobile) {
 
 export function refreshToken(mobile, data) {
   return request({
-    url: "v2/user/" + mobile + "token",
+    url: "v2/user/" + mobile + "/token",
     method: "put",
     data: data
   });
@@ -63,6 +63,13 @@ export function updateReservationResult(mobiles) {
 export function reward(mobiles) {
   return request({
     url: "v2/reward/" + mobiles,
+    method: "post",
+  });
+}
+
+export function gift(mobiles) {
+  return request({
+    url: "v2/gift/" + mobiles,
     method: "post",
   });
 }
